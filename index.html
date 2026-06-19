@@ -528,6 +528,66 @@
         }
         .empty-state .emoji { font-size:2.5rem; margin-bottom:.75rem; }
         .empty-state p { font-size:.95rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:900px) {
+            .top-bar { padding:.7rem 1rem; }
+            .top-bar-inner { flex-wrap:wrap; gap:.5rem; }
+            .app-title { font-size:1rem; }
+            .progress-section { order:10; width:100%; }
+            .top-actions { gap:.4rem; }
+            .btn-icon { padding:.45rem .75rem; font-size:.8rem; }
+            .btn-export-xl { display:none; }
+        }
+        @media(max-width:600px) {
+            .top-bar { padding:.5rem .7rem; }
+            .app-logo { display:none; }
+            .app-title { font-size:.9rem; }
+            .top-actions { gap:.25rem; }
+            .btn-icon { padding:.35rem .55rem; font-size:.72rem; }
+            .btn-export { font-size:0; }
+            .btn-export::before { content:'⬇️'; font-size:1rem; }
+        }
+        @media(max-width:768px) {
+            .logo-title { font-size:1.8rem; }
+            .logo-subtitle { font-size:.9rem; }
+            .upload-zone { padding:2rem 1.25rem; }
+            .upload-icon { font-size:2.5rem; }
+            .upload-text-primary { font-size:1.05rem; }
+            .upload-formats { flex-wrap:wrap; }
+            .family-header { padding:1rem 1.1rem; }
+            .family-header-top { flex-direction:column; align-items:stretch; }
+            .header-right { align-items:flex-start; }
+            .badge-row { justify-content:flex-start; }
+            .family-number { font-size:1.7rem; }
+            .household-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
+            .parents-section { padding:1.1rem; }
+            .section-title { font-size:.9rem; }
+            .member-panel-header { padding:.75rem .85rem; }
+            .member-role { font-size:.9rem; }
+            .member-fields { padding:.75rem .85rem; grid-template-columns:1fr; }
+            .children-section { padding:1.1rem; }
+            .children-grid { grid-template-columns:1fr; }
+            .child-panel-header { padding:.65rem .8rem; }
+            .child-fields { padding:.65rem .8rem; grid-template-columns:1fr; }
+            .nav-bar { padding:.6rem 1rem; }
+            .nav-btn { padding:.55rem 1rem; font-size:.85rem; }
+            .nav-counter { font-size:.9rem; }
+            .jump-input { width:48px; }
+            .main-content { padding:1rem .7rem; }
+            .modal-card { padding:1.5rem 1.2rem; }
+            .modal-title { font-size:1.15rem; }
+            .modal-btns { flex-direction:column; gap:.5rem; }
+            .modal-btn { width:100%; justify-content:center; }
+            .restore-banner { flex-direction:column; text-align:center; padding:.85rem 1rem; }
+            .restore-info { font-size:.82rem; }
+        }
+        @media(max-width:400px) {
+            .logo-title { font-size:1.4rem; }
+            .family-number { font-size:1.4rem; }
+            .gender-btn { font-size:.75rem; padding:.25rem .6rem; }
+            .field-value { font-size:.8rem; }
+        }
     </style>
 </head>
 <body>
