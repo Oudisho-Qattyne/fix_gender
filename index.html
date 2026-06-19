@@ -647,7 +647,6 @@
                 </div>
             </div>
             <div class="top-actions">
-                <button class="btn-icon btn-export" onclick="exportCSV()" title="تصدير كـ CSV — أصغر حجماً، يفتح في Excel">⬇️ CSV</button>
                 <button class="btn-icon btn-export-xl" onclick="exportXLSX()" title="تصدير كـ Excel مضغوط">⬇️ Excel</button>
                 <button class="btn-icon btn-clear" onclick="clearSession()">🗑 مسح</button>
             </div>
@@ -773,6 +772,7 @@ function cleanLabel(col) {
    STATE
    ================================================================ */
 let allRows      = [];   // parsed row objects (may be mutated by swap)
+let importedFileName = '';
 let currentIndex = 0;
 let genderState  = {};   // { idx: { head, spouse, children:[], swapped, reviewed } }
 let pendingSwap  = null; // { idx, gender }
@@ -783,7 +783,7 @@ const LS_KEY     = 'church_registry_v2';
    ================================================================ */
 function saveLS() {
     try {
-        localStorage.setItem(LS_KEY, JSON.stringify({ rows: allRows, genderState }));
+        localStorage.setItem(LS_KEY, JSON.stringify({ rows: allRows, genderState, importedFileName }));
     } catch(e) { /* quota exceeded, ignore */ }
 }
 
@@ -865,6 +865,7 @@ fileInput.addEventListener('change', e => {
 
 async function handleFile(file) {
     showLoading(true);
+    importedFileName = file.name.replace(/\.[^.]+$/, '');
     try {
         const rows = await parseFile(file);
         if (!rows || rows.length === 0) {
@@ -1222,8 +1223,9 @@ function exportCSV() {
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     const date = new Date().toISOString().split('T')[0];
+    const base = importedFileName || 'سجل_العائلات';
     a.href     = url;
-    a.download = `سجل_العائلات_المصحح_${date}.csv`;
+    a.download = `${base}_مصحح_${date}.csv`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
     showToast('⬇️ تم تصدير CSV بنجاح (حجم صغير)', 'success');
@@ -1237,8 +1239,9 @@ function exportXLSX() {
     const wb   = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'العائلات المصححة');
     const date = new Date().toISOString().split('T')[0];
+    const base = importedFileName || 'سجل_العائلات';
     // compression:true enables deflate inside the ZIP → 60-80% smaller
-    XLSX.writeFile(wb, `سجل_العائلات_المصحح_${date}.xlsx`, { compression: true });
+    XLSX.writeFile(wb, `${base}_مصحح_${date}.xlsx`, { compression: true });
     showToast('⬇️ تم تصدير Excel بنجاح', 'success');
 }
 
@@ -1265,6 +1268,7 @@ function restoreSession() {
     if (!saved || !saved.rows || !saved.rows.length) return;
     allRows     = saved.rows;
     genderState = saved.genderState || {};
+    importedFileName = saved.importedFileName || '';
     allRows.forEach((_, i) => initState(i));
     currentIndex = 0;
     startApp();
